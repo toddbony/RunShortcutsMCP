@@ -39,20 +39,11 @@ VERSION_STR="$(tr -d ' \t\r\n' < VERSION)"
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION_STR" "$APP/Contents/Info.plist"
 echo "Stamped version: $VERSION_STR"
 
-# Bundle the (HTML) manual + example config + example shortcuts so the app can
-# self-provision them into the per-user config folder on first run. Copied
-# before signing so they're inside the signed bundle.
-EXAMPLE_SHORTCUTS=(
-    TagNote GetNoteContents MoveNote
-    TagReminder GetReminderTags GetSubTask
-    GetReminderLayout GetReminderLineage IsSubTask SetReminderLineage
-    ShortcutBackup
-)
+# Bundle the (HTML) manual + example config
+EXAMPLE_SHORTCUTS=()
+
 cp build/MANUAL.html "$APP/Contents/Resources/MANUAL.html"
 cp assets/RunShortcutsMCP.config.example "$APP/Contents/Resources/RunShortcutsMCP.config.example"
-for name in "${EXAMPLE_SHORTCUTS[@]}"; do
-    cp "assets/$name.shortcut" "$APP/Contents/Resources/$name.shortcut"
-done
 
 if [[ -n "$SIGN_ID" ]]; then
     codesign --force --options runtime \
