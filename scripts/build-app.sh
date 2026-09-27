@@ -40,7 +40,6 @@ VERSION_STR="$(tr -d ' \t\r\n' < VERSION)"
 echo "Stamped version: $VERSION_STR"
 
 # Bundle the (HTML) manual + example config
-EXAMPLE_SHORTCUTS=()
 
 cp build/MANUAL.html "$APP/Contents/Resources/MANUAL.html"
 cp assets/RunShortcutsMCP.config.example "$APP/Contents/Resources/RunShortcutsMCP.config.example"
@@ -60,10 +59,7 @@ fi
 # bundle so they stay editable and don't affect the signature). MANUAL.html was
 # already rendered into build/ above.
 cp assets/RunShortcutsMCP.config.example "build/RunShortcutsMCP.config.example"
-for name in "${EXAMPLE_SHORTCUTS[@]}"; do
-    cp "assets/$name.shortcut" build/
-done
 
 echo "Built: $APP"
 echo "Executable for MCP config: $ROOT/$APP/Contents/MacOS/$APP_NAME"
-echo "Distributables in build/: $APP_NAME.app, MANUAL.html, RunShortcutsMCP.config.example, ${EXAMPLE_SHORTCUTS[*]/%/.shortcut}"
+echo "Distributables in build/: $APP_NAME.app, MANUAL.html"
